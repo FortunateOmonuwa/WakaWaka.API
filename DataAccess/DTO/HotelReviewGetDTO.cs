@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using WakaWaka.API.Domain.Models.Hotel;
+using WakaWaka.API.Domain.Models.restaurant;
 
 namespace WakaWaka.API.DataAccess.DTO
 {

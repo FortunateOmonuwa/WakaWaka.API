@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Linq.Expressions;
 using WakaWaka.API.DataAccessLayer.DataContext;
 using WakaWaka.API.DataAccessLayer.Interfaces;
-using WakaWaka.API.Domain.Models.Hotel;
+using WakaWaka.API.Domain.Models.restaurant;
 using WakaWaka.API.Models.Hotel;
 
 namespace WakaWaka.API.DataAccessLayer.Repository
@@ -86,6 +87,7 @@ namespace WakaWaka.API.DataAccessLayer.Repository
                         hotel.Id = hotelId;
                         hotel.Name = entity.Name;
                         hotel.Rating = entity.Rating;
+                        hotel.Created_At = hotel.Created_At;
                         _context.Hotels.Update(entity);
                         await _context.SaveChangesAsync();
                         return entity;
@@ -139,7 +141,7 @@ namespace WakaWaka.API.DataAccessLayer.Repository
                 throw new Exception($"{ex.Source}/n {ex.Message}");
             }
         }
-        public async Task<IEnumerable<Hotel>> CreateMultipleAsync(IEnumerable<Hotel> hotels)
+        public async Task<IEnumerable<Hotel>> CreateMultipleAsync(IEnumerable<Hotel>? hotels)
         {
             try
             {
@@ -151,7 +153,7 @@ namespace WakaWaka.API.DataAccessLayer.Repository
                {
                     foreach(var hotel in hotels)
                     {
-                        var hotelName = await _context.Hotels.FindAsync(hotel.Name);
+                        var hotelName = await _context.Hotels.FirstOrDefaultAsync(h => h.Name == hotel.Name);
                         if(hotelName != null)
                         {
                             throw new Exception($"Hotel with name {hotelName.Name} already exists");
@@ -170,7 +172,7 @@ namespace WakaWaka.API.DataAccessLayer.Repository
                 throw new Exception($"{ex.Source}/n {ex.Message}");
             }
         }
-        public async Task<IQueryable<Hotel>> GetAllFilteredAsync(Expression<Func<Hotel, bool>> filterCondition)
+        public async Task<IQueryable<Hotel>> GetAllFilteredAsync(Expression<Func<Hotel, bool>>? filterCondition)
         {
             try
             {
@@ -236,33 +238,33 @@ namespace WakaWaka.API.DataAccessLayer.Repository
         }
 
 
-        public async Task<IQueryable<Hotel>> GetSortedByQueryAsync(Expression<Func<Hotel, object>> orderByQuery)
-        {
-            try
-            {
-                var hotels = _context.Hotels.AsQueryable();
-                if(orderByQuery == null)
-                {
-                    return hotels;
-                }
-                else
-                {
-                    return orderByQuery.ToString() switch
-                    {
-                        "name" => hotels.OrderBy(h => h.Name),
-                        "Rating" => hotels.OrderBy(h => h.Rating),
-                        "Price" => hotels.OrderBy(h => h.Price),
-                        _ => hotels,
-                    };
-                }
-            }
-            catch(Exception ex)
-            {
-                throw new Exception($"{ex.Source}/n {ex.Message}");
-            }
-        }
+        //public async Task<IQueryable<Hotel>> GetSortedByQueryAsync(Expression<Func<Hotel, object>> orderByQuery)
+        //{
+        //    try
+        //    {
+        //        var hotels = _context.Hotels.AsQueryable();
+        //        if(orderByQuery == null)
+        //        {
+        //            return hotels;
+        //        }
+        //        else
+        //        {
+        //            return orderByQuery.ToString() switch
+        //            {
+        //                "name" => hotels.OrderBy(h => h.Name),
+        //                "Rating" => hotels.OrderBy(h => h.Rating),
+        //                "Price" => hotels.OrderBy(h => h.Price),
+        //                _ => hotels,
+        //            };
+        //        }
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        throw new Exception($"{ex.Source}/n {ex.Message}");
+        //    }
+        //}
 
-        public async Task<HotelReview> GetReviewAsync(int reviewId, int hotelId)
+        public async Task<HotelReview> GetReviewByIdAsync(int reviewId, int hotelId)
         {
             try
             {
@@ -295,10 +297,10 @@ namespace WakaWaka.API.DataAccessLayer.Repository
         {
             try
             {
-                var hotel = await _context.Hotels.FindAsync(review.Hotel_Id);
+                var hotel = await _context.Hotels.FirstOrDefaultAsync( h => h.Id == review.Hotel_Id);
                 if(hotel != null)
                 {
-                    hotel.Reviews.Add(review);
+                    _context.HotelReviews.Add(review);
                     await _context.SaveChangesAsync();
                     return review;
                 }
@@ -331,8 +333,9 @@ namespace WakaWaka.API.DataAccessLayer.Repository
                     existingReview.Author = review.Author;
                     existingReview.Hotel_Id = review.Hotel_Id;
                     existingReview.Id = reviewId;
+                    existingReview.Created_At = existingReview.Created_At;
 
-                    hotel.Reviews.Add(review);
+                    _context.HotelReviews.Add(review);
                     await _context.SaveChangesAsync();
                     return review;
                 }

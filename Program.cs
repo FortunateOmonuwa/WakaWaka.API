@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using WakaWaka.API.DataAccessLayer.DataContext;
 using WakaWaka.API.DataAccessLayer.Interfaces;
 using WakaWaka.API.DataAccessLayer.Repository;
-using WakaWaka.API.Domain.Models.Hotel;
+using WakaWaka.API.Domain.Models.restaurant;
 using WakaWaka.API.Models.Hotel;
 using WakaWaka.API.Models.Restaurant;
 using WakaWaka.API.Models.Resturant;

@@ -236,33 +236,33 @@ namespace WakaWaka.API.DataAccessLayer.Repository
         }
 
 
-        public async Task<IQueryable<Restaurant>> GetSortedByQueryAsync(Expression<Func<Restaurant, object>> orderByQuery)
-        {
-            try
-            {
-                var restaurants = _context.Restaurants.AsQueryable();
-                if (orderByQuery == null)
-                {
-                    return restaurants;
-                }
-                else
-                {
-                    return orderByQuery.ToString() switch
-                    {
-                        "name" => restaurants.OrderBy(h => h.Name),
-                        "Rating" => restaurants.OrderBy(h => h.Rating),
-                        "Price" => restaurants.OrderBy(h => h.Price),
-                        _ => restaurants,
-                    };
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{ex.Source}/n {ex.Message}");
-            }
-        }
+        //public async Task<IQueryable<Restaurant>> GetSortedByQueryAsync(Expression<Func<Restaurant, object>> orderByQuery)
+        //{
+        //    try
+        //    {
+        //        var restaurants = _context.Restaurants.AsQueryable();
+        //        if (orderByQuery == null)
+        //        {
+        //            return restaurants;
+        //        }
+        //        else
+        //        {
+        //            return orderByQuery.ToString() switch
+        //            {
+        //                "name" => restaurants.OrderBy(h => h.Name),
+        //                "Rating" => restaurants.OrderBy(h => h.Rating),
+        //                "Price" => restaurants.OrderBy(h => h.Price),
+        //                _ => restaurants,
+        //            };
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception($"{ex.Source}/n {ex.Message}");
+        //    }
+        //}
 
-        public async Task<RestaurantReview> GetReviewAsync(int reviewId, int restaurantId)
+        public async Task<RestaurantReview> GetReviewByIdAsync(int reviewId, int restaurantId)
         {
             try
             {

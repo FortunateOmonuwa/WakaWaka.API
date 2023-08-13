@@ -1,11 +1,11 @@
-﻿namespace WakaWaka.API.Domain.Models.Hotel
+﻿namespace WakaWaka.API.Domain.Models.restaurant
 {
     public enum Rating
     {
-        OneStar = 1,
-        TwoStar = 2,
-        ThreeStar = 3,
-        FourStar = 4,
-        FiveStar = 5,
+        Tourist = 1,
+        Standard = 2,
+        Comfort = 3,
+        First_Class = 4,
+        Luxury = 5,
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WakaWaka.API.Models.Hotel;
 
-namespace WakaWaka.API.Domain.Models.Hotel
+namespace WakaWaka.API.Domain.Models.restaurant
 {
     public class Hotel
     {

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using WakaWaka.API.DataAccess.DTO;
-using WakaWaka.API.Domain.Models.Hotel;
+using WakaWaka.API.Domain.Models.restaurant;
 using WakaWaka.API.Models.Hotel;
 using WakaWaka.API.Models.Restaurant;
 using WakaWaka.API.Models.Resturant;
