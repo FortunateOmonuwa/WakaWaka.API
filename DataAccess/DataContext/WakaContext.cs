@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WakaWaka.API.Domain.Models.restaurant;
+using WakaWaka.API.Domain.Models.User;
 using WakaWaka.API.Models.Hotel;
 using WakaWaka.API.Models.Restaurant;
 using WakaWaka.API.Models.Resturant;
@@ -24,15 +25,16 @@ namespace WakaWaka.API.DataAccessLayer.DataContext
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder
-                .LogTo(Console.WriteLine, LogLevel.Information)
-                .EnableSensitiveDataLogging()
-                .EnableDetailedErrors();
+            //optionsBuilder
+            //    .LogTo(Console.WriteLine, LogLevel.Information)
+            //    .EnableSensitiveDataLogging()
+            //    .EnableDetailedErrors();
         }
 
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Restaurant> Restaurants { get; set;}
         public DbSet<HotelReview> HotelReviews { get; set;}
         public DbSet<RestaurantReview> RestaurantReviews { get;set; }
+        public DbSet<User> Users { get; set; }
     }
 }

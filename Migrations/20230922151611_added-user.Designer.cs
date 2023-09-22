@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WakaWaka.API.DataAccessLayer.DataContext;
 
@@ -11,9 +12,11 @@ using WakaWaka.API.DataAccessLayer.DataContext;
 namespace WakaWaka.API.Migrations
 {
     [DbContext(typeof(WakaContext))]
-    partial class WakaContextModelSnapshot : ModelSnapshot
+    [Migration("20230922151611_added-user")]
+    partial class addeduser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +56,7 @@ namespace WakaWaka.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsAdmin")
+                    b.Property<bool?>("IsAdmin")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
