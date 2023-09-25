@@ -33,7 +33,7 @@ namespace WakaWaka.API.Service
         }
 
 
-        public string createToken(string Id, bool role)
+        public string CreateToken(string Id, bool role)
         {
             List<Claim> claims = new List<Claim>
             {
@@ -54,6 +54,11 @@ namespace WakaWaka.API.Service
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
             return jwt;
+        }
+
+        public string CreateRandomVerificationToken()
+        {
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(8));
         }
     }
 }

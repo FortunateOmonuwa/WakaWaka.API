@@ -31,6 +31,22 @@ namespace WakaWaka.API.Domain.Models.User
 
         public string? RefreshToken { get; set; }
 
+        public string? VerificationToken { get; set; }
+        public DateTime? VerifiedAt { get; set; }
+        public string? PasswordResetToken { get; set; }
+        public DateTime? ResetTokenExpiration
+        {
+            get { return resetTokenExpiration; }
+            set
+            {
+                resetTokenExpiration = value;
+                if (value.HasValue && (DateTime.UtcNow - value.Value).TotalMinutes >= 10)
+                {
+                    resetTokenExpiration = null;
+                }
+            }
+        }
+
         public DateTime? CreatedAt { get; set; } 
         public DateTime? UpdatedAt { get; set; }
         public bool IsAdmin { get; set; }
@@ -43,5 +59,10 @@ namespace WakaWaka.API.Domain.Models.User
 
         [DataType(DataType.PostalCode)]
         public string? PostalCode { get; set; }
+
+
+
+        //Fields
+        private DateTime? resetTokenExpiration;
     }
 }

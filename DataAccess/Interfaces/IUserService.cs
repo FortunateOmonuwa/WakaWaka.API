@@ -7,5 +7,9 @@ namespace WakaWaka.API.DataAccess.Interfaces
     {
         Task<User> CreateUser (UserCreateDTO newUserModel);
         Task<string> Login(UserLoginDTO login);
+        Task<string> VerifyUser(UserRegisterTokenVerificationDTO token);
+        Task<string> ForgotPassword(ForgotPasswordDTO email);
+        Task<string> VerifyResetToken(string token);
+        Task <string> ResetPassword(PasswordResetDTO reset);
     }
 }
