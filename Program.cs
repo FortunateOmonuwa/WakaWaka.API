@@ -29,6 +29,7 @@ builder.Services.AddTransient<IReviewRepository<HotelReview>, HotelRepository>()
 builder.Services.AddTransient<IBaseRepository<Restaurant>, RestaurantRepository>();
 builder.Services.AddTransient<IReviewRepository<RestaurantReview>, RestaurantRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IMailService, MailService>();
 builder.Services.AddTransient<AuthService>();
 builder.Services.AddAutoMapper(typeof(Program));
 //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

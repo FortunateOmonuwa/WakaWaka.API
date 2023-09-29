@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WakaWaka.API.DataAccessLayer.DataContext;
 
@@ -11,9 +12,11 @@ using WakaWaka.API.DataAccessLayer.DataContext;
 namespace WakaWaka.API.Migrations
 {
     [DbContext(typeof(WakaContext))]
-    partial class WakaContextModelSnapshot : ModelSnapshot
+    [Migration("20230925161120_resettoken")]
+    partial class resettoken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

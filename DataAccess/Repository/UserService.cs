@@ -17,13 +17,15 @@ namespace WakaWaka.API.DataAccess.Repository
         private readonly WakaContext _context;
         private readonly IMapper _mapper;
         private readonly AuthService _authService;
+        private readonly IMailService _emailService;
    
 
-        public UserService(WakaContext context, IMapper mapper, AuthService authService)
+        public UserService(WakaContext context, IMapper mapper, AuthService authService, IMailService emailService)
         {
             _context = context;
             _mapper = mapper;
             _authService = authService;
+            _emailService = emailService;
         }
 
      
@@ -64,8 +66,22 @@ namespace WakaWaka.API.DataAccess.Repository
                         UserName = newUserModel.UserName,
                         Phone = newUserModel.Phone,
                         VerificationToken = _authService.CreateRandomVerificationToken(),
+                        CreatedAt = DateTime.UtcNow,
+                        
                         
                     };
+
+                    //_emailService.SendEmail(newUser.VerificationToken, newUser.Email);
+
+                    var mailService = new MailTransferDTO
+                    {
+                        SenderMail = "caleb.pouros86@ethereal.email",
+                        ReceiverEmail = newUser.Email,
+                        Subject = "Your verification Token",
+                        Body = $"Please make use of the code below to verify your account \n\n {newUser.VerificationToken}"                  
+                    };
+
+                   _emailService.SendEmail(mailService);
                     await _context.Users.AddAsync(newUser);
                     await _context.SaveChangesAsync();
                     return newUser;
