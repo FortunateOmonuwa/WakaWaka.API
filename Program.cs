@@ -12,6 +12,7 @@ using System.Text;
 using WakaWaka.API.DataAccess.Interfaces;
 using WakaWaka.API.DataAccess.Repository;
 using WakaWaka.API.Service;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen( options =>
+{
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Name = "Authorization", 
+        Type = SecuritySchemeType.ApiKey
+    });
+
+    
+});
 
 var connection = builder.Configuration.GetConnectionString("WakaWaka");
 builder.Services.AddDbContext<WakaContext>(options => options.UseSqlServer(connection));

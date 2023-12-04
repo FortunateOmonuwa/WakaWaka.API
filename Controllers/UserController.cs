@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WakaWaka.API.DataAccess.DTO;
 using WakaWaka.API.DataAccess.Interfaces;
@@ -37,6 +38,8 @@ namespace WakaWaka.API.Controllers
         }
 
         [HttpPost("Login")]
+        [AllowAnonymous]
+        [Authorize (Roles ="Admin, User")]
         public async Task<IActionResult> Login(UserLoginDTO login)
         {
             try
