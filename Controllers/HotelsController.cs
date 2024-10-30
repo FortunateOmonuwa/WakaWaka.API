@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Asp.Versioning;
+using AutoMapper;
 using AutoMapper.Execution;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,11 @@ using WakaWaka.API.Models.Hotel;
 namespace WakaWaka.API.Controllers
 {
     [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ControllerName("Hotel")]
+    [ApiVersion(1.0, Deprecated =true)]
+   
+    
     [ApiController]
     public class HotelsController : ControllerBase
     {
@@ -29,6 +35,8 @@ namespace WakaWaka.API.Controllers
 
         [HttpGet]
         [Route("{hotelId}")]
+        [MapToApiVersion("1.0")]
+        
         public async Task<IActionResult> GetHotelByIdAsync(int hotelId)
         {
             try
@@ -49,8 +57,11 @@ namespace WakaWaka.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Source + ex.Message);
             }
         }
+    
+
 
         [HttpPost]
+        [MapToApiVersion("1.0")]
         public async Task<IActionResult> AddNewHotel([FromBody] HotelCreateDTO newHotel)
         {
             try
@@ -77,7 +88,9 @@ namespace WakaWaka.API.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("Hotels")]
+        //    [MapToApiVersion(1)]
+        [MapToApiVersion("1.0")]
         public async Task<IActionResult> GetAllHotels()
         {
             try
@@ -95,6 +108,7 @@ namespace WakaWaka.API.Controllers
 
         [HttpDelete]
         [Route("{hotelId}")]
+        [MapToApiVersion("1.0")]
         public async Task<IActionResult> DeleteHotel(int hotelId)
         {
             try
@@ -110,6 +124,7 @@ namespace WakaWaka.API.Controllers
 
         [HttpPut]
         [Route("{hotelId}")]
+        [MapToApiVersion("1.0")]
         public async Task<IActionResult> UpdateHotel([FromBody] HotelCreateDTO updateHotel, int hotelId)
         {
             try
@@ -174,6 +189,7 @@ namespace WakaWaka.API.Controllers
         //    }
         //}
         [HttpPost("Multiple-Hotels")]
+        [MapToApiVersion("1.0")]
         public async Task<IActionResult> AddMultipleHotelEntity([FromBody] IEnumerable<HotelCreateDTO> newHotels)
         {
             try
@@ -211,6 +227,7 @@ namespace WakaWaka.API.Controllers
 
 
         [HttpGet("by-filter-condition")]
+        [MapToApiVersion("1.0")]
         public async Task<IActionResult> GetByFilteredCondition(string? city, string? state, string? country, int? rating, int? price, int? maxPrice)
         {
             try
@@ -243,6 +260,7 @@ namespace WakaWaka.API.Controllers
 
 
         [HttpGet("by-search-query")]
+        [MapToApiVersion("1.0")]
         public async Task<IActionResult> GetBySearchQuery(string? searchQuery)
         {
             try
@@ -280,6 +298,7 @@ namespace WakaWaka.API.Controllers
         }
 
         [HttpGet("paged-hotels")]
+        [MapToApiVersion("1.0")]
         public async Task<IActionResult> GetPagedHotels(int pageNumber, int pageSize)
         {
             try
@@ -307,6 +326,7 @@ namespace WakaWaka.API.Controllers
         }
 
         [HttpPost("Create-Hotel-Reviews")]
+        [MapToApiVersion("1.0")]
         public async Task<IActionResult> CreateHotelReview([FromBody] HotelReviewCreateDTO newReview)
         {
             try
@@ -331,6 +351,7 @@ namespace WakaWaka.API.Controllers
         }
 
         [HttpPost("Get-Hotel-Review-By-ID")]
+        [MapToApiVersion("1.0")]
         public async Task<IActionResult> GetHotelReviewByID(int hotelId, int reviewId)
         {
             try
@@ -353,6 +374,7 @@ namespace WakaWaka.API.Controllers
         }
 
         [HttpGet("Get-All-Hotel-Reviews")]
+        [MapToApiVersion("1.0")]
         public async Task<IActionResult> GetAllHotelReviews(int hotelId)
         {
             try
@@ -370,6 +392,7 @@ namespace WakaWaka.API.Controllers
 
 
         [HttpPut("Update-Hotel-Review")]
+        [MapToApiVersion("1.0")]
         public async Task<IActionResult> UpdateHotelReview([FromBody] HotelReviewCreateDTO updateReview, int hotelId)
         {
             try
@@ -395,6 +418,7 @@ namespace WakaWaka.API.Controllers
         }
 
         [HttpDelete("Remove-Hotel-ReviewBy-Id")]
+        [MapToApiVersion("1.0")]
         public async Task<IActionResult> DeleteHotelReview(int reviewId, int hotelId)
         {
             try

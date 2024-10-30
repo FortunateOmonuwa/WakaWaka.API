@@ -13,6 +13,10 @@ using WakaWaka.API.DataAccess.Interfaces;
 using WakaWaka.API.DataAccess.Repository;
 using WakaWaka.API.Service;
 using Microsoft.OpenApi.Models;
+using Asp.Versioning;
+using Asp.Versioning.ApiExplorer;
+using WakaWaka.API.Controllers;
+using WakaWaka.API.Controllers.V2;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,6 +63,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
         };
     });
 
+builder.Services.AddApiVersioning(options =>
+{
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.ReportApiVersions = true; /// consider turning this off
+    options.ApiVersionReader = ApiVersionReader.Combine(
+        new UrlSegmentApiVersionReader(), //version will be extracted from  url
+        new QueryStringApiVersionReader("api-version"), /// this is the default not the best
+        new HeaderApiVersionReader("X-Version"), 
+        new MediaTypeApiVersionReader("X-Version")); // Accept/Content type header X-Version = 1.0
+}).AddMvc()
+.AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -75,5 +96,13 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+//app.UseSwaggerUI(options =>
+//{
+//    var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+//    foreach (var description in provider.ApiVersionDescriptions)
+//    {
+//        options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+//    }
+//});
 
 app.Run();
